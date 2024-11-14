@@ -1,0 +1,239 @@
+<html>
+    <head>
+        <title>Weather.com</title>
+        <style>
+            *{
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            body{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-image: url(https://i.redd.it/ml78s1dmi3531.jpg);
+                background-size: 100%;
+                background-repeat: no-repeat;
+            }
+            .container{
+                width: 25vw;
+                height: 60vh;
+                border-style: solid;
+                border-radius: 20px;
+                background: transparent;
+              backdrop-filter: blur(37px);
+            }
+            span{
+                text-align: center;
+                font-style: italic;
+            }
+            .flex1{
+                width: 25vw;
+                height: 11vh;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            input{
+                margin: 7px;
+                padding: 7px;
+                width: 100%;
+                padding-left: 5px;
+                border-radius: 15px;
+                position: relative;
+                bottom: 6px;
+                right: 7px;
+                border: none;
+                outline: none;
+               
+            }
+            .inputd{
+                margin: 10px;
+                padding: 3px;
+                width: 90%;
+                padding-left: 5px;
+                border-radius: 15px;
+                background-color: white;
+                height: 41px;
+            }
+            .inputd img{
+               position: relative;
+               bottom: 42px;
+               left: 300px;
+               cursor: pointer;
+            }
+            .cloud{
+                width: 22vw;
+                height: 22vh;
+                position: relative;
+                top: 25px;
+                left: 5.5%;
+            }
+            .img{
+                width: 125px;
+                height: 100px;
+               float: left;
+               margin: 3px;
+            }
+            .img .img1{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 89px;
+                width: 119px;
+            }
+            .wind{
+                width: 24vw;
+                height: 19vh;
+                position: relative;
+                top: 39px;
+                left: 1.5%;
+            }
+            .temp{
+                margin-top: 17px;
+                font-size: 50px;
+                position: relative;
+                text-align: end;
+                right: 25px;
+            }
+            .city{
+                text-align: center;
+                margin-top: 50px;
+                font-size: 37px;
+                font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+                position: relative;
+               bottom: 45;
+               left: 50px;
+            }
+            .wind{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .wind #div1{
+
+                 padding: 28px;
+                 height: 127px;
+            }
+            .wind #div2{
+                padding-left: 70px;
+                padding-top: 28px;
+                padding-bottom: 28px;
+                height: 127px;
+            }
+            .wind #div1 h2{
+                position: relative;
+                bottom: 20px;
+                right: 3px;
+            }
+            .wind #div2 h2{
+                position: relative;
+                bottom: 18.8px;
+                right: 22px;
+            }
+            .wind #div1 img{
+                position: relative;
+                right: 15px;
+                float: left;
+            }
+            .wind #div2 img{
+                position: relative;
+                float: right;
+                right: 38px;
+            }
+            .wind #div1 .in{
+               height: 55px;
+               width: 70px;
+               position: relative;
+               bottom: 10px;
+               right: 10px;
+               display: flex;
+               align-items: center;
+               font-size: 30px;
+               font-style: italic;
+            }
+            .wind #div2 .in1{
+               height: 55px;
+               width: 70px;
+               position: relative;
+               bottom: 10px;
+               right: 37px;
+               display: flex;
+               justify-content: center;
+               align-items: center;
+               font-size: 30px;
+               font-style: italic;
+            }
+            
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="flex1">
+                <span><h1>Weather App</h1></span>
+                <div class="inputd">
+                    <input type="text" placeholder="Search City" id="cityInput">
+                    <img id="searchimg" src="search.png" alt="none" height="25px" width="25px" onclick="sai()">
+                </div>
+            </div>
+            <div class="cloud">
+                <div class="img">
+                        
+                </div>
+                 <p class="temp"></p>
+                 <p class="city"></p>
+            </div>
+            <div class="wind">
+                <div id="div1"><h2>Humidity</h2><img src="humidity.png" height="37px" width="37px"><div class="in"></div></div>
+                <div id="div2"><h2>Wind</h2><img src="wind.png" height="37px" width="37px"><div class="in1"></div></div>
+            </div>
+        </div>
+        <script>
+              function sai() {
+                    var input = document.querySelector("#cityInput"); // Use the id to access the input
+                    var search = input.value;
+                    if (search === "") {
+                        alert("Please, Enter any city name!")
+                    } else {
+                        checkweather(search);
+                    }
+                }
+            const apikey="8d0f8e86a53f614d884ba913586d2717"
+            async function checkweather(search){
+                try{
+                    const apiurl=`https://api.openweathermap.org/data/2.5/weather?units=metric&q=${search}`
+                const response =await fetch(apiurl+`&appid=${apikey}`)
+                var data=await response.json()
+                console.log(data)
+                    const cloud = document.querySelector(".cloud");
+                    const p1 = document.querySelector(".temp");
+                    var z = document.querySelector(".img");
+                    z.innerHTML=""
+                    const p2 = document.querySelector(".city");
+                    const in0 = document.querySelector(".in");
+                    const in1 = document.querySelector(".in1");
+                    const img1 = document.createElement('img');
+                    img1.classList.add("img1")
+                if(data.main.temp>=35){
+                    img1.setAttribute("src",`sun.png`)
+                }
+                else if(data.main.temp>=21){
+                    img1.setAttribute("src",`cloudy.png`)
+                }
+                else if(data.main.temp<21){
+                    img1.setAttribute("src",`clouds.png`)
+                }
+
+                p1.innerHTML=`${data.main.temp}°C`
+                p2.innerHTML=`${data.name}`
+                in0.textContent=`${data.main.humidity}`
+                in1.textContent=`${data.wind.speed}`
+                z.appendChild(img1)
+                }
+                catch(e){
+                    alert("Invalid city name!")
+                }
+            }
+        </script>
+    </body>
+</html>
